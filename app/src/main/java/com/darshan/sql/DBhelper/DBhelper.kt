@@ -13,9 +13,9 @@ class DBhelper(
 
     ) : SQLiteOpenHelper(context, "Table.db", null, 1) {
     private val Tag = "DBhelper"
-    val Table = "Student_table"
+    val Table_table = "Student_table"
     override fun onCreate(p0: SQLiteDatabase?) {
-        var Sql = "CREATE TABLE $Table (Id INT PRIMARY KEY AUTOINCREMENT, Name TEXT,Surname TEXT);"
+        var Sql = "CREATE TABLE $Table_table (Id INT PRIMARY KEY AUTOINCREMENT, name TEXT,surname TEXT);"
         p0?.execSQL(Sql)
     }
 
@@ -28,8 +28,8 @@ class DBhelper(
             put("name", stdData.name)
             put("SurName", stdData.SurName)
         }
-        var iss = DB.insert(Table, null, Value)
-        if (iss.toInt() == 1) {
+        var iss = DB.insert(Table_table, null, Value)
+        if (iss.toInt() == -1) {
             Log.e(Tag,"addStudent:================Data is not Insert")
         } else {
             Log.e(Tag,"addStudent:================Data  Insert")
