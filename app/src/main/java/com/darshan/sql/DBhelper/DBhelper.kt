@@ -2,6 +2,7 @@ package com.darshan.sql.DBhelper
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.LocusId
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -57,5 +58,9 @@ class DBhelper(
         }
         return  studentlist
 
+    }
+    fun delectStudent(id:Int) {
+        var DB=writableDatabase
+        DB.delete(Table_table,"id=$id",null)
     }
 }
