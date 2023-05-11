@@ -1,11 +1,11 @@
 package com.darshan.sql
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.DialogInterface.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +13,7 @@ import com.darshan.sql.Adapter.StudentAdapter
 import com.darshan.sql.DBhelper.DBhelper
 import com.darshan.sql.Model.DBModel
 import com.darshan.sql.databinding.ActivityMainBinding
+import com.darshan.sql.databinding.UpdateBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         DBhelper = DBhelper(this)
         var list = DBhelper.getstudent()
 
-        adapter = StudentAdapter { id ->
+        adapter = StudentAdapter ({ id ->
             var dialog =
                 AlertDialog.Builder(this).setTitle("Delete").setMessage("are you sure to Delete")
                     .setPositiveButton("yes", object :
@@ -44,8 +45,30 @@ class MainActivity : AppCompatActivity() {
                     })
                     .create()
             dialog.show()
+        } ,{
+            var dialog = Dialog(this)
+            var bind = UpdateBinding.inflate(layoutInflater)
+            dialog.setContentView(bind.root)
 
-        }
+            var id = it.id
+            bind.edtupName.setText(it.name)
+            bind.edtupSurName.setText(it.SurName)
+            bind.edtupStd.setText(it.STD)
+
+            bind.btnAddClick.setOnClickListener {
+                var n = bind.edtupName.text.toString()
+                var sn = bind.edtupSurName.text.toString()
+                var Std = bind.edtupStd.text.toString()
+                var md = DBModel(id,n,sn,Std)
+                DBhelper.updatestudent(md)
+                adapter.update(DBhelper.getstudent())
+                dialog.dismiss()
+
+            }
+            dialog.show()
+        })
+
+
         adapter.setStudent(list)
 
         binding.rcvStudentList.layoutManager = LinearLayoutManager(this)

@@ -11,8 +11,9 @@ import com.darshan.sql.Model.DBModel
 import com.darshan.sql.R
 import java.util.ArrayList
 
-class StudentAdapter(click: (Int) -> Unit) :RecyclerView.Adapter<StudentAdapter.StudentHolder>() {
+class StudentAdapter(click: (Int) -> Unit, ClickUpdate: (DBModel) -> Unit) :RecyclerView.Adapter<StudentAdapter.StudentHolder>() {
     var click= click
+    var clickUpdate = ClickUpdate
     lateinit var List:ArrayList<DBModel>
     class StudentHolder(itemView:View):ViewHolder(itemView){
         var id=itemView.findViewById<TextView>(R.id.txtid)
@@ -20,6 +21,7 @@ class StudentAdapter(click: (Int) -> Unit) :RecyclerView.Adapter<StudentAdapter.
         var SurName=itemView.findViewById<TextView>(R.id.txtSurName)
         var STD=itemView.findViewById<TextView>(R.id.txtStd)
         var imgDelete = itemView.findViewById<ImageView>(R.id.imgDelete)
+        var imgedit = itemView.findViewById<ImageView>(R.id.imgedit)
     }
 
 
@@ -40,6 +42,9 @@ class StudentAdapter(click: (Int) -> Unit) :RecyclerView.Adapter<StudentAdapter.
 
         holder.imgDelete.setOnClickListener {
                 click.invoke(List.get(position).id)
+        }
+        holder.imgedit.setOnClickListener {
+            clickUpdate.invoke(List.get(position))
         }
     }
 
